@@ -3,6 +3,10 @@ import { remote } from 'electron'
 const { Menu } = remote
 
 const appendInspectElementMenu = (template) => {
+  if (!window.event) {
+    return template
+  }
+
   const { clientX: x, clientY: y } = window.event
 
   if (template.length) {
