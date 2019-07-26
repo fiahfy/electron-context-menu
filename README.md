@@ -2,10 +2,12 @@
 
 > Context menu helper for electron.
 
+
 ## Installation
 ```
 npm install @fiahfy/electron-context-menu
 ```
+
 
 ## Usage
 ```js
