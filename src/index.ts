@@ -2,36 +2,38 @@ import { remote, MenuItemConstructorOptions } from 'electron'
 
 const { Menu } = remote
 
-const appendInspectElementMenu = (
-  template: MenuItemConstructorOptions[]
-): MenuItemConstructorOptions[] => {
+const createInspectElementMenuItem = (
+  label: string
+): MenuItemConstructorOptions => {
   const e = window.event
-  if (!e) {
-    return template
-  }
-
   if (!(e instanceof MouseEvent)) {
     return template
   }
 
   const { clientX: x, clientY: y } = e
 
-  if (template.length) {
-    template = template.concat([{ type: 'separator' }])
+  return {
+    label,
+    click: (): void =>
+      remote.getCurrentWindow().webContents.inspectElement(x, y)
   }
-
-  return template.concat([
-    {
-      label: 'Inspect Element',
-      click: (): void =>
-        remote.getCurrentWindow().webContents.inspectElement(x, y)
-    }
-  ])
 }
 
-export default (template: MenuItemConstructorOptions[] = []): void => {
-  if (process.env.NODE_ENV !== 'production') {
-    template = appendInspectElementMenu(template)
+export default (
+  template: MenuItemConstructorOptions[] = [],
+  { hidden, label }: { hidden: boolean; label: string } = {}
+): void => {
+  hidden = hidden ?? process.env.NODE_ENV === 'production'
+  label = label ?? 'Inspect Element'
+
+  if (!hidden) {
+    const menuItem = createInspectElementMenuItem(label)
+    if (menuItem) {
+      if (template.length) {
+        template = [...template, { type: 'separator' }]
+      }
+      template = [...template, menuItem]
+    }
   }
 
   if (!template.length) {
