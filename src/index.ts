@@ -4,10 +4,10 @@ const { Menu } = remote
 
 const createInspectElementMenuItem = (
   label: string
-): MenuItemConstructorOptions => {
+): MenuItemConstructorOptions | undefined => {
   const e = window.event
   if (!(e instanceof MouseEvent)) {
-    return template
+    return undefined
   }
 
   const { clientX: x, clientY: y } = e
@@ -19,12 +19,22 @@ const createInspectElementMenuItem = (
   }
 }
 
+type Options = {
+  hidden: boolean
+  label: string
+}
+
 export default (
   template: MenuItemConstructorOptions[] = [],
-  { hidden, label }: { hidden: boolean; label: string } = {}
+  options: Partial<Options> = {}
 ): void => {
-  hidden = hidden ?? process.env.NODE_ENV === 'production'
-  label = label ?? 'Inspect Element'
+  const { hidden, label } = {
+    ...{
+      hidden: process.env.NODE_ENV === 'production',
+      label: 'Inspect Element'
+    },
+    ...options
+  }
 
   if (!hidden) {
     const menuItem = createInspectElementMenuItem(label)
