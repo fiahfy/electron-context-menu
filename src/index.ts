@@ -24,7 +24,7 @@ type Options = {
   label: string
 }
 
-export default (
+export const open = (
   template: MenuItemConstructorOptions[] = [],
   options: Partial<Options> = {}
 ): void => {

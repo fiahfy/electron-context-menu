@@ -1,18 +1,18 @@
-import show from '../src'
+import { open } from '../src'
 
-describe('show', () => {
+describe('open', () => {
   test('should call', () => {
     expect(() => {
-      show()
+      open()
     }).not.toThrow(Error)
     expect(() => {
-      show([{ role: 'copy' }])
+      open([{ role: 'copy' }])
     }).not.toThrow(Error)
     expect(() => {
-      show([], { hidden: false })
+      open([], { hidden: false })
     }).not.toThrow(Error)
     expect(() => {
-      show([], { label: 'foo' })
+      open([], { label: 'foo' })
     }).not.toThrow(Error)
   })
 })
