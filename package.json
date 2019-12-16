@@ -25,6 +25,9 @@
     "ts-jest": "^24.2.0",
     "typescript": "^3.7.3"
   },
+  "engines": {
+    "node": ">=8"
+  },
   "files": [
     "dist"
   ],
