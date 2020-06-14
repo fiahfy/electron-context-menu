@@ -1,4 +1,4 @@
-import { remote, MenuItemConstructorOptions } from 'electron'
+import { remote, MenuItemConstructorOptions, MenuItem } from 'electron'
 
 const { Menu } = remote
 
@@ -15,7 +15,7 @@ const createInspectElementMenuItem = (
   return {
     label,
     click: (): void =>
-      remote.getCurrentWindow().webContents.inspectElement(x, y)
+      remote.getCurrentWindow().webContents.inspectElement(x, y),
   }
 }
 
@@ -25,15 +25,15 @@ type Options = {
 }
 
 export const open = (
-  template: MenuItemConstructorOptions[] = [],
+  template: (MenuItemConstructorOptions | MenuItem)[] = [],
   options: Partial<Options> = {}
 ): void => {
   const { hidden, label } = {
     ...{
       hidden: process.env.NODE_ENV === 'production',
-      label: 'Inspect Element'
+      label: 'Inspect Element',
     },
-    ...options
+    ...options,
   }
 
   if (!hidden) {
@@ -51,6 +51,6 @@ export const open = (
   }
 
   Menu.buildFromTemplate(template).popup({
-    window: remote.getCurrentWindow()
+    window: remote.getCurrentWindow(),
   })
 }
