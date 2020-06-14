@@ -1,7 +1,7 @@
 {
   "name": "@fiahfy/electron-context-menu",
   "description": "Context menu helper for electron",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "author": {
     "name": "fiahfy",
     "email": "d.fiahfy@gmail.com",
