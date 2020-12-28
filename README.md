@@ -19,8 +19,8 @@ window.addEventListener('contextmenu', () => {
   open([
     {
       label: 'Ping',
-      click: () => console.log('pong')
-    }
+      click: () => console.log('pong'),
+    },
   ])
 })
 ```
