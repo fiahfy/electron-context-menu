@@ -1,4 +1,4 @@
-import { open } from '../src'
+// import { open } from '../src'
 
 describe('open', () => {
   test('should call', () => {
