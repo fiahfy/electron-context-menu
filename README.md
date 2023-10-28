@@ -2,7 +2,7 @@
 
 ![badge](https://github.com/fiahfy/electron-context-menu/workflows/Node.js%20Package/badge.svg)
 
-> Context menu helper for debugging on electron.
+> Context Menu Helper in Electron Apps.
 
 ## Installation
 
@@ -13,44 +13,41 @@ npm install @fiahfy/electron-context-menu
 ## Usage
 
 ```js
-import { open } from '@fiahfy/electron-context-menu'
+// main.js
+import { register } from '@fiahfy/electron-context-menu'
 
-window.addEventListener('contextmenu', () => {
-  open([
-    {
-      label: 'Ping',
-      click: () => console.log('pong'),
-    },
-  ])
-})
+const actionCreators = {
+  ping: (_event, _params, { message }) => ({
+    click: () => console.log(message), // => pong
+  }),
+}
+
+register(actionCreators)
 ```
 
-## API
+```js
+// preload.js
+import { exposeOperations } from '@fiahfy/electron-context-menu/preload'
 
-### open(template, options)
+contextBridge.exposeInMainWorld('electronAPI', {
+  ...exposeOperations(),
+}
+```
 
-Open contextmenu with the inspect element menu.
+```js
+// renderer.js
+import { buildContextMenuParams } from '@fiahfy/electron-context-menu/renderer'
 
-#### template
+const handleContextMenu = (e) => {
+  e.preventDefault()
+  e.stopPropagation()
 
-Type: `MenuItemConstructorOptions[]`
+  const items = [
+    { type: 'ping', data: { message: 'pong' }}
+  ]
 
-The menu item template.
-
-#### options
-
-Type: `Object`
-
-##### hidden
-
-Type: `boolean`  
-Default: `process.env.NODE_ENV === 'production'`
-
-Show or hide the inspect element menu.
-
-##### label
-
-Type: `string`  
-Default: `Inspect Element`
-
-The inspect element menu label.
+  await window.electronAPI.showContextMenu(
+    buildContextMenuParams(e, items),
+  )
+}
+```

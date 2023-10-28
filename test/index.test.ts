@@ -1,19 +1,22 @@
-// import { open } from '../src'
+import { ipcMain } from 'electron'
+import { describe, expect, test, vi } from 'vitest'
+import { ActionCreators, register } from '../src'
 
-describe('open', () => {
-  test('should call', () => {
-    // TODO: https://github.com/facebook-atom/jest-electron-runner/issues/73
-    // expect(() => {
-    //   open()
-    // }).not.toThrow(Error)
-    // expect(() => {
-    //   open([{ role: 'copy' }])
-    // }).not.toThrow(Error)
-    // expect(() => {
-    //   open([], { hidden: false })
-    // }).not.toThrow(Error)
-    // expect(() => {
-    //   open([], { label: 'foo' })
-    // }).not.toThrow(Error)
+vi.mock('electron', () => {
+  const ipcMain = {
+    handle: vi.fn(),
+  }
+  return { ipcMain }
+})
+
+describe('register', () => {
+  test('should work', () => {
+    const actionCreators: ActionCreators = {
+      ping: (_event, _params, { message }) => ({
+        click: () => console.log(message),
+      }),
+    }
+    register(actionCreators)
+    expect(ipcMain.handle).toBeCalledTimes(1)
   })
 })

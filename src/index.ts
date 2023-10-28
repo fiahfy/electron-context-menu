@@ -1,56 +1,94 @@
-import { remote, MenuItemConstructorOptions, MenuItem } from 'electron'
+import {
+  BrowserWindow,
+  IpcMainInvokeEvent,
+  Menu,
+  MenuItemConstructorOptions,
+  ipcMain,
+} from 'electron'
 
-const { Menu } = remote
-
-const createInspectElementMenuItem = (
-  label: string
-): MenuItemConstructorOptions | undefined => {
-  const e = window.event
-  if (!(e instanceof MouseEvent)) {
-    return undefined
-  }
-
-  const { clientX: x, clientY: y } = e
-
-  return {
-    label,
-    click: (): void =>
-      remote.getCurrentWindow().webContents.inspectElement(x, y),
-  }
+export type ContextMenuOption = {
+  data?: any // eslint-disable-line @typescript-eslint/no-explicit-any
+  type: string
 }
 
-type Options = {
-  hidden: boolean
-  label: string
+export type ContextMenuParams = {
+  isEditable: boolean
+  options: ContextMenuOption[]
+  selectionText: string
+  x: number
+  y: number
 }
 
-export const open = (
-  template: (MenuItemConstructorOptions | MenuItem)[] = [],
-  options: Partial<Options> = {}
-): void => {
-  const { hidden, label } = {
-    ...{
-      hidden: process.env.NODE_ENV === 'production',
-      label: 'Inspect Element',
+export type ActionCreators = {
+  [type in string]: (
+    event: IpcMainInvokeEvent,
+    params: ContextMenuParams,
+    data?: ContextMenuOption['data'],
+  ) => MenuItemConstructorOptions | false | undefined
+}
+
+const defaultActionCreators: ActionCreators = {
+  separator: () => ({ type: 'separator' as const }),
+  cut: (_event, params) =>
+    params.isEditable && {
+      accelerator: 'CmdOrCtrl+X',
+      role: 'cut' as const,
     },
-    ...options,
-  }
-
-  if (!hidden) {
-    const menuItem = createInspectElementMenuItem(label)
-    if (menuItem) {
-      if (template.length) {
-        template = [...template, { type: 'separator' }]
+  copy: (_event, params) =>
+    (params.isEditable || params.selectionText.length > 0) && {
+      accelerator: 'CmdOrCtrl+C',
+      role: 'copy' as const,
+    },
+  paste: (_event, params) =>
+    params.isEditable && {
+      accelerator: 'CmdOrCtrl+V',
+      role: 'paste' as const,
+    },
+  inspectElement: (event, params) => ({
+    label: 'Inspect Element',
+    click: () => {
+      event.sender.inspectElement(params.x, params.y)
+      if (event.sender.isDevToolsOpened()) {
+        event.sender.devToolsWebContents?.focus()
       }
-      template = [...template, menuItem]
-    }
-  }
+    },
+  }),
+}
 
-  if (!template.length) {
-    return
-  }
+export const register = (
+  actionCreators: ActionCreators,
+  defaultActionTypes = [
+    'separator',
+    'cut',
+    'copy',
+    'paste',
+    'separator',
+    'inspectElement',
+  ],
+) => {
+  ipcMain.handle(
+    'showContextMenu',
+    (event: IpcMainInvokeEvent, params: ContextMenuParams) => {
+      const selectActionCreator = (type: string) => {
+        return { ...defaultActionCreators, ...actionCreators }[type]
+      }
+      const actions = params.options.map((option) => {
+        const creator = selectActionCreator(option.type)
+        return creator ? creator(event, params, option.data) : undefined
+      })
 
-  Menu.buildFromTemplate(template).popup({
-    window: remote.getCurrentWindow(),
-  })
+      const defaultActions = defaultActionTypes.map((type) => {
+        const creator = selectActionCreator(type)
+        return creator ? creator(event, params) : undefined
+      })
+
+      const template = [...actions, ...defaultActions].filter(
+        (a) => a,
+      ) as MenuItemConstructorOptions[]
+
+      const menu = Menu.buildFromTemplate(template)
+      const window = BrowserWindow.fromWebContents(event.sender)
+      window && menu.popup({ window, x: params.x, y: params.y })
+    },
+  )
 }
