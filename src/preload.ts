@@ -1,5 +1,5 @@
 import { ipcRenderer } from 'electron'
-import type { ContextMenuOption, ContextMenuParams } from '.'
+import type { ContextMenuOption, ContextMenuParams } from './index.js'
 
 export type { ContextMenuOption, ContextMenuParams }
 

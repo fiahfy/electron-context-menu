@@ -1,9 +1,9 @@
-import type { ContextMenuOption, ContextMenuParams } from '.'
+import type { ContextMenuOption, ContextMenuParams } from './index.js'
 
 export type { ContextMenuOption, ContextMenuParams }
 
 export const buildContextMenuParams = (
-  e: globalThis.MouseEvent,
+  e: MouseEvent,
   options: ContextMenuOption[],
 ): ContextMenuParams => {
   const isEditable =
