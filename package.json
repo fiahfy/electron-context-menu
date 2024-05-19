@@ -13,13 +13,12 @@
   "devDependencies": {
     "@fiahfy/eslint-config": "^0.0.21",
     "@fiahfy/prettier-config": "^0.0.3",
-    "@fiahfy/tsconfig": "^0.0.2",
-    "@tsconfig/node20": "^20.1.2",
-    "electron": "^27.0.2",
-    "eslint": "^8.52.0",
-    "prettier": "^3.0.3",
-    "typescript": "^5.2.2",
-    "vitest": "^0.34.6"
+    "@tsconfig/node20": "^20.1.4",
+    "electron": "^30.0.6",
+    "eslint": "^8.57.0",
+    "prettier": "^3.2.5",
+    "typescript": "~5.3.3",
+    "vitest": "^1.6.0"
   },
   "engines": {
     "node": ">=20"
