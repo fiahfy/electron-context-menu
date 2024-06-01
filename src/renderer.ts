@@ -6,12 +6,20 @@ export const buildContextMenuParams = (
   e: MouseEvent,
   options: ContextMenuOption[],
 ): ContextMenuParams => {
+  const target = e.target
+
   const isEditable =
-    e.target instanceof HTMLInputElement ||
-    e.target instanceof HTMLTextAreaElement
-      ? !e.target.readOnly
+    target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement
+      ? !target.readOnly
       : false
-  const selectionText = window.getSelection()?.toString() ?? ''
+
+  const selection = window.getSelection()
+  const selectionText = selection
+    ? selection.containsNode(target as Node, true)
+      ? selection.toString()
+      : ''
+    : ''
+
   const { clientX: x, clientY: y } = e
 
   return { isEditable, options, selectionText, x, y }
