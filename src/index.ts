@@ -69,13 +69,17 @@ export const register = (
   ipcMain.handle(
     'showContextMenu',
     (event: IpcMainInvokeEvent, params: ContextMenuParams) => {
+      const findActionCreator = (type: string) => {
+        return { ...actionCreators, ...defaultActionCreators }[type]
+      }
+
       const actions = params.options.map((option) => {
-        const creator = actionCreators[option.type]
+        const creator = findActionCreator(option.type)
         return creator ? creator(event, params, option.data) : undefined
       })
 
       const defaultActions = defaultActionTypes.map((type) => {
-        const creator = defaultActionCreators[type]
+        const creator = findActionCreator(type)
         return creator ? creator(event, params) : undefined
       })
 
