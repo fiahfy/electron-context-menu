@@ -1,7 +1,7 @@
 {
   "name": "@fiahfy/electron-context-menu",
   "description": "Context Menu Helper in Electron Apps.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": {
     "name": "fiahfy",
     "email": "d.fiahfy@gmail.com",
