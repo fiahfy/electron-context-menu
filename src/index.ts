@@ -1,13 +1,14 @@
 import {
   BrowserWindow,
-  IpcMainInvokeEvent,
+  type IpcMainInvokeEvent,
   Menu,
-  MenuItemConstructorOptions,
+  type MenuItemConstructorOptions,
   ipcMain,
 } from 'electron'
 
 export type ContextMenuOption = {
-  data?: any // eslint-disable-line @typescript-eslint/no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  data?: any
   type: string
 }
 

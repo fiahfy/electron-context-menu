@@ -1,6 +1,6 @@
 import { ipcMain } from 'electron'
 import { describe, expect, test, vi } from 'vitest'
-import { ActionCreators, register } from '../src'
+import { type ActionCreators, register } from '../src'
 
 vi.mock('electron', () => {
   const ipcMain = {

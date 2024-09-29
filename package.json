@@ -5,20 +5,18 @@
   "author": {
     "name": "fiahfy",
     "email": "d.fiahfy@gmail.com",
-    "url": "https://fiahfy.github.io/"
+    "url": "https://github.com/fiahfy"
   },
   "bugs": {
     "url": "https://github.com/fiahfy/electron-context-menu/issues"
   },
   "devDependencies": {
-    "@fiahfy/eslint-config": "^0.0.21",
-    "@fiahfy/prettier-config": "^0.0.3",
+    "@biomejs/biome": "^1.9.2",
+    "@fiahfy/biome-config": "^0.0.1",
     "@tsconfig/node20": "^20.1.4",
-    "electron": "^30.0.6",
-    "eslint": "^8.57.0",
-    "prettier": "^3.2.5",
-    "typescript": "~5.3.3",
-    "vitest": "^1.6.0"
+    "electron": "^32.1.2",
+    "typescript": "^5.6.2",
+    "vitest": "^2.1.1"
   },
   "engines": {
     "node": ">=20"
@@ -46,10 +44,12 @@
   ],
   "license": "MIT",
   "main": "./dist/index.js",
+  "packageManager": "yarn@4.5.0",
   "peerDependencies": {
     "electron": ">=27"
   },
   "publishConfig": {
+    "registry": "https://registry.npmjs.org",
     "access": "public"
   },
   "repository": {
@@ -59,9 +59,8 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc -w",
-    "format": "prettier -c --ignore-path .gitignore .",
-    "lint": "eslint --ext .js,.ts --ignore-path .gitignore .",
-    "test": "npm run format && npm run lint && npm run type-check && vitest run",
+    "lint": "biome check",
+    "test": "yarn lint && yarn type-check && vitest run",
     "type-check": "tsc"
   },
   "type": "module",
