@@ -27,6 +27,7 @@ jobs:
           node-version: 20
       - run: corepack enable
       - run: yarn
+      - run: yarn build
       - run: yarn config set npmAuthToken "${NODE_AUTH_TOKEN}"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
