@@ -28,6 +28,8 @@ export type ActionCreators = {
   ) => MenuItemConstructorOptions | false | undefined
 }
 
+const prefix = 'electron-context-menu.'
+
 const defaultActionCreators: ActionCreators = {
   separator: () => ({ type: 'separator' as const }),
   cut: (_event, params) =>
@@ -68,7 +70,7 @@ export const register = (
   ],
 ) => {
   ipcMain.handle(
-    'showContextMenu',
+    `${prefix}showContextMenu`,
     (event: IpcMainInvokeEvent, params: ContextMenuParams) => {
       const findActionCreator = (type: string) => {
         return { ...actionCreators, ...defaultActionCreators }[type]
