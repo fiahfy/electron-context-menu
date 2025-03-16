@@ -69,7 +69,7 @@ export const register = (
     'inspectElement',
   ],
 ) => {
-  ipcMain.handle(
+  ipcMain.on(
     `${prefix}showContextMenu`,
     (event: IpcMainInvokeEvent, params: ContextMenuParams) => {
       const findActionCreator = (type: string) => {
