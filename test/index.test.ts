@@ -4,7 +4,7 @@ import { type ActionCreators, register } from '../src'
 
 vi.mock('electron', () => {
   const ipcMain = {
-    handle: vi.fn(),
+    on: vi.fn(),
   }
   return { ipcMain }
 })
@@ -17,6 +17,6 @@ describe('register', () => {
       }),
     }
     register(actionCreators)
-    expect(ipcMain.handle).toBeCalledTimes(1)
+    expect(ipcMain.on).toBeCalledTimes(1)
   })
 })
