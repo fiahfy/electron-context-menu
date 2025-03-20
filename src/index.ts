@@ -92,7 +92,7 @@ export const register = (
 
       const menu = Menu.buildFromTemplate(template)
       const window = BrowserWindow.fromWebContents(event.sender)
-      window && menu.popup({ window, x: params.x + 1, y: params.y + 1 })
+      window && menu.popup({ window, x: params.x + 1, y: params.y })
     },
   )
 }
