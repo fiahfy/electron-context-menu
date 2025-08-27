@@ -1,13 +1,13 @@
 import {
   BrowserWindow,
-  type IpcMainInvokeEvent,
+  type IpcMainEvent,
+  ipcMain,
   Menu,
   type MenuItemConstructorOptions,
-  ipcMain,
 } from 'electron'
 
 export type ContextMenuOption = {
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  // biome-ignore lint/suspicious/noExplicitAny: false positive
   data?: any
   type: string
 }
@@ -22,7 +22,7 @@ export type ContextMenuParams = {
 
 export type ActionCreators = {
   [type in string]: (
-    event: IpcMainInvokeEvent,
+    event: IpcMainEvent,
     params: ContextMenuParams,
     data?: ContextMenuOption['data'],
   ) => MenuItemConstructorOptions | false | undefined
@@ -71,7 +71,7 @@ export const register = (
 ) => {
   ipcMain.on(
     `${prefix}showContextMenu`,
-    (event: IpcMainInvokeEvent, params: ContextMenuParams) => {
+    (event: IpcMainEvent, params: ContextMenuParams) => {
       const findActionCreator = (type: string) => {
         return { ...actionCreators, ...defaultActionCreators }[type]
       }
