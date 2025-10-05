@@ -11,12 +11,12 @@
     "url": "https://github.com/fiahfy/electron-context-menu/issues"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.2.3",
-    "@fiahfy/biome-config": "^0.0.2",
-    "@tsconfig/node20": "^20.1.6",
-    "electron": "^38.0.0",
-    "typescript": "^5.9.2",
-    "vitest": "^3.2.4"
+    "@biomejs/biome": "2.2.4",
+    "@fiahfy/biome-config": "0.0.2",
+    "@tsconfig/node20": "20.1.6",
+    "electron": "38.0.0",
+    "typescript": "5.9.2",
+    "vitest": "3.2.4"
   },
   "engines": {
     "node": ">=20"
@@ -44,7 +44,7 @@
   ],
   "license": "MIT",
   "main": "./dist/index.js",
-  "packageManager": "yarn@4.9.4",
+  "packageManager": "yarn@4.10.3",
   "peerDependencies": {
     "electron": ">=27"
   },
