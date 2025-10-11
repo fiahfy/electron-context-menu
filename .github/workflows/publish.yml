@@ -5,8 +5,11 @@ on:
     tags:
       - 'v*'
 
+permissions:
+  id-token: write
+
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -16,19 +19,5 @@ jobs:
       - run: corepack enable
       - run: yarn
       - run: yarn test
-
-  publish-npm:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - run: corepack enable
-      - run: yarn
       - run: yarn build
-      - run: yarn config set npmAuthToken "${NODE_AUTH_TOKEN}"
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - run: yarn npm publish

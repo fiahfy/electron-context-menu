@@ -50,7 +50,8 @@
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org",
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
   "repository": {
     "type": "git",
@@ -61,7 +62,7 @@
     "dev": "tsc -w",
     "lint": "biome check",
     "test": "yarn lint && yarn type-check && vitest run",
-    "type-check": "tsc"
+    "type-check": "tsc --noEmit"
   },
   "type": "module",
   "types": "./dist/index.d.js"
