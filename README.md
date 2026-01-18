@@ -2,7 +2,7 @@
 
 [![Publish](https://github.com/fiahfy/electron-context-menu/actions/workflows/publish.yml/badge.svg)](https://github.com/fiahfy/electron-context-menu/actions/workflows/publish.yml)
 
-> Context Menu Helper in Electron Apps.
+> A helper library for creating context menus in Electron applications.
 
 ## Installation
 
