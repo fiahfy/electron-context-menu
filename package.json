@@ -14,7 +14,7 @@
     "@biomejs/biome": "2.2.5",
     "@fiahfy/biome-config": "0.0.2",
     "@tsconfig/node20": "20.1.6",
-    "electron": "38.0.0",
+    "electron": "39.8.5",
     "typescript": "5.9.3",
     "vitest": "3.2.4"
   },
